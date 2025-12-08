@@ -1,6 +1,8 @@
 // This file contains the JavaScript code for the ToDo application.
 
+
 let tasks = [];
+
 
 function addTask(task) {
     if (task) {
@@ -9,6 +11,7 @@ function addTask(task) {
     }
 }
 
+
 function removeTask(index) {
     if (index > -1 && index < tasks.length) {
         tasks.splice(index, 1);
@@ -16,8 +19,9 @@ function removeTask(index) {
     }
 }
 
+
 function displayTasks() {
-    const taskList = document.getElementById('task-list');
+    const taskList = document.getElementById('taskList');
     taskList.innerHTML = '';
     tasks.forEach((task, index) => {
         const li = document.createElement('li');
@@ -30,9 +34,9 @@ function displayTasks() {
     });
 }
 
-document.getElementById('add-task-form').onsubmit = function(event) {
-    event.preventDefault();
-    const taskInput = document.getElementById('task-input');
+
+document.getElementById('addTaskButton').onclick = function () {
+    const taskInput = document.getElementById('taskInput');
     addTask(taskInput.value);
     taskInput.value = '';
 };
