@@ -1,0 +1,20 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "A simple ToDo application to manage personal and professional activities.",
+  "main": "scripts/app.js",
+  "scripts": {
+    "start": "live-server"
+  },
+  "keywords": [
+    "todo",
+    "application",
+    "javascript"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  }
+}
