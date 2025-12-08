@@ -1,60 +1,286 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+/* Import Google Fonts for professional typography */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Reset and base styles */
+* {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Container styling */
+.container {
+    max-width: 600px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.6s ease-out;
+}
+
+/* Only apply backdrop-filter for users without motion sensitivity */
+@media (prefers-reduced-motion: no-preference) {
+    .container {
+        backdrop-filter: blur(10px);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Header styling */
 h1 {
     text-align: center;
-    color: #333;
+    color: #2d3748;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-#todo-container {
-    max-width: 600px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+/* Input field styling */
+#taskInput {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    background: #f7fafc;
 }
 
-#task-input {
-    width: calc(100% - 22px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+#taskInput:focus {
+    outline: none;
+    border-color: #667eea;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-#add-task-btn {
-    padding: 10px 15px;
-    background-color: #28a745;
+/* Only apply transform for users without motion sensitivity */
+@media (prefers-reduced-motion: no-preference) {
+    #taskInput:focus {
+        transform: translateY(-2px);
+    }
+}
+
+#taskInput::placeholder {
+    color: #a0aec0;
+}
+
+/* Button styling */
+#addTaskButton {
+    width: 100%;
+    padding: 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 12px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    margin-bottom: 25px;
 }
 
-#add-task-btn:hover {
-    background-color: #218838;
+#addTaskButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
 }
 
-.task {
+#addTaskButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
+}
+
+/* Task list styling */
+#taskList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Todo item styling */
+.todo-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #eee;
+    gap: 12px;
+    padding: 16px 18px;
+    background: #ffffff;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    animation: fadeInItem 0.4s ease-out;
 }
 
-.task button {
-    background-color: #dc3545;
+@keyframes fadeInItem {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.todo-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+/* Checkbox styling */
+.todo-checkbox {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    accent-color: #667eea;
+    flex-shrink: 0;
+}
+
+/* Task text styling */
+.todo-item span {
+    flex: 1;
+    color: #2d3748;
+    font-size: 1rem;
+    word-break: break-word;
+    transition: all 0.3s ease;
+}
+
+/* Completed task styling using class instead of inline style selector */
+.todo-item.completed span {
+    color: #a0aec0;
+    opacity: 0.6;
+    text-decoration: line-through;
+}
+
+/* Fallback for inline style (backward compatibility) */
+.todo-item span[style*="line-through"] {
+    color: #a0aec0;
+    opacity: 0.6;
+}
+
+/* Delete button styling */
+.todo-delete {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(245, 101, 101, 0.3);
+    flex-shrink: 0;
 }
 
-.task button:hover {
-    background-color: #c82333;
+.todo-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 101, 101, 0.5);
+}
+
+.todo-delete:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(245, 101, 101, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+    .container {
+        padding: 25px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    #taskInput,
+    #addTaskButton {
+        padding: 14px 16px;
+        font-size: 0.938rem;
+    }
+    
+    .todo-item {
+        padding: 14px 16px;
+        gap: 10px;
+    }
+    
+    .todo-item span {
+        font-size: 0.938rem;
+    }
+    
+    .todo-delete {
+        padding: 6px 12px;
+        font-size: 0.813rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 20px;
+        border-radius: 16px;
+    }
+    
+    h1 {
+        font-size: 1.75rem;
+    }
+    
+    .todo-checkbox {
+        width: 20px;
+        height: 20px;
+    }
 }
