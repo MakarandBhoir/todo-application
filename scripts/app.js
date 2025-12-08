@@ -20,7 +20,7 @@ const renderTodos = () => {
     taskList.innerHTML = '';
     tasks.forEach(({ id, text, completed }, idx) => {
         const li = document.createElement('li');
-        li.className = 'todo-item';
+        li.className = completed ? 'todo-item completed' : 'todo-item';
 
         // Checkbox for completion
         const checkbox = document.createElement('input');
@@ -33,7 +33,6 @@ const renderTodos = () => {
         // Task text
         const span = document.createElement('span');
         span.textContent = text;
-        if (completed) span.style.textDecoration = 'line-through';
         li.appendChild(span);
 
         // Delete button
