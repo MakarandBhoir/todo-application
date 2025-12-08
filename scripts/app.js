@@ -1,42 +1,96 @@
-// This file contains the JavaScript code for the ToDo application.
 
-
+// ToDo App: Spec-compliant implementation
+const LOCAL_STORAGE_KEY = 'todos';
 let tasks = [];
 
+// Load tasks from localStorage
+const loadTasks = () => {
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+    tasks = saved ? JSON.parse(saved) : [];
+};
 
-function addTask(task) {
-    if (task) {
-        tasks.push(task);
-        displayTasks();
-    }
-}
+// Save tasks to localStorage
+const saveTasks = () => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(tasks));
+};
 
-
-function removeTask(index) {
-    if (index > -1 && index < tasks.length) {
-        tasks.splice(index, 1);
-        displayTasks();
-    }
-}
-
-
-function displayTasks() {
+// Render all tasks
+const renderTodos = () => {
     const taskList = document.getElementById('taskList');
     taskList.innerHTML = '';
-    tasks.forEach((task, index) => {
+    tasks.forEach(({ id, text, completed }, idx) => {
         const li = document.createElement('li');
-        li.textContent = task;
-        const removeButton = document.createElement('button');
-        removeButton.textContent = 'Remove';
-        removeButton.onclick = () => removeTask(index);
-        li.appendChild(removeButton);
+        li.className = 'todo-item';
+
+        // Checkbox for completion
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = completed;
+        checkbox.className = 'todo-checkbox';
+        checkbox.onchange = () => toggleComplete(id);
+        li.appendChild(checkbox);
+
+        // Task text
+        const span = document.createElement('span');
+        span.textContent = text;
+        if (completed) span.style.textDecoration = 'line-through';
+        li.appendChild(span);
+
+        // Delete button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.className = 'todo-delete';
+        deleteBtn.onclick = () => deleteTask(id);
+        li.appendChild(deleteBtn);
+
         taskList.appendChild(li);
     });
-}
-
-
-document.getElementById('addTaskButton').onclick = function () {
-    const taskInput = document.getElementById('taskInput');
-    addTask(taskInput.value);
-    taskInput.value = '';
 };
+
+// Add a new task
+const addTask = (text) => {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    const newTask = {
+        id: Date.now(),
+        text: trimmed,
+        completed: false
+    };
+    tasks.push(newTask);
+    saveTasks();
+    renderTodos();
+};
+
+// Delete a task by id
+const deleteTask = (id) => {
+    tasks = tasks.filter(task => task.id !== id);
+    saveTasks();
+    renderTodos();
+};
+
+// Toggle completion
+const toggleComplete = (id) => {
+    tasks = tasks.map(task =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+    );
+    saveTasks();
+    renderTodos();
+};
+
+// Event listeners
+document.getElementById('addTaskButton').onclick = () => {
+    const input = document.getElementById('taskInput');
+    addTask(input.value);
+    input.value = '';
+};
+
+document.getElementById('taskInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        addTask(e.target.value);
+        e.target.value = '';
+    }
+});
+
+// Initial load
+loadTasks();
+renderTodos();
